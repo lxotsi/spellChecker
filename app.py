@@ -1,29 +1,17 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request
 from model import SpellCheckerModule
 
 app = Flask(__name__)
-spell_checker = SpellCheckerModule()
 
-@app.route('/')
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template('index.html')
-
-@app.route('/spell', methods=['POST', 'GET'])
-def spell():
-    if request.method == 'POST':
-        text = request.form['text']
+    if request.method == "POST":
+        text = request.form["text"]
+        spell_checker = SpellCheckerModule()
         corrected_text = spell_checker.correct_spelling(text)
-        corrected_grammar = spell_checker.correct_grammar(text)
-        return render_template('index.html', corrected_text=corrected_text, corrected_grammar=corrected_grammar)
+        corrected_grammar, mistakes_count = spell_checker.correct_grammar(text)
+        return render_template("index.html", corrected_text=corrected_text, corrected_grammar=corrected_grammar)
+    return render_template("index.html")
 
-@app.route('/grammar', methods=['POST', 'GET'])
-def grammar():
-    if request.method == 'POST':
-        file = request.files['file']
-        readable_file = file.read().decode('utf-8', errors='ignore')
-        corrected_file_text = spell_checker.correct_spelling(readable_file)
-        corrected_file_grammar = spell_checker.correct_grammar(readable_file)
-        return render_template('index.html', corrected_file_text=corrected_file_text,corrected_file_grammar=corrected_file_grammar)
-    
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
