@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Spell Checker App
 
 This is a simple spell checker and grammar corrector application built with Python using Flask, TextBlob, and GingerIt.
@@ -15,3 +16,6 @@ To run this app locally, clone the repository and install the required dependenc
 git clone <your-github-repository-url>
 cd SpellCheckerApp
 pip install -r requirements.txt
+=======
+# Spell Checker
+>>>>>>> 199394994a4f67315af748eb9e233a29a49485a4
